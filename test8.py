@@ -40,6 +40,10 @@ def get_ip_info(ip):
     if response.status_code == 200:
         data = response.json()
         if data.get("status") == "success":
+            lat = data.get("lat", "N/A")
+            lon = data.get("lon", "N/A")
+            google_maps_link = f"https://www.google.com/maps/search/?api=1&query={lat},{lon}" if lat != "N/A" and lon != "N/A" else "N/A"
+            
             return {
                 "IP": data.get("query", "N/A"),
                 "STATUS": data.get("status", "N/A"),
@@ -52,8 +56,8 @@ def get_ip_info(ip):
                 "STADT": data.get("city", "N/A"),
                 "DISTRIKT": data.get("district", "N/A"),
                 "POSTLEITZAHL": data.get("zip", "N/A"),
-                "BREITENGRAD": data.get("lat", "N/A"),
-                "LÄNGENGRAD": data.get("lon", "N/A"),
+                "BREITENGRAD": lat,
+                "LÄNGENGRAD": lon,
                 "ZEITZONE": data.get("timezone", "N/A"),
                 "UTC OFFSET": data.get("offset", "N/A"),
                 "WÄHRUNG": data.get("currency", "N/A"),
@@ -64,7 +68,8 @@ def get_ip_info(ip):
                 "REVERSE DNS": data.get("reverse", "N/A"),
                 "MOBILE": "Ja" if data.get("mobile", False) else "Nein",
                 "PROXY": "Ja" if data.get("proxy", False) else "Nein",
-                "HOSTING": "Ja" if data.get("hosting", False) else "Nein"
+                "HOSTING": "Ja" if data.get("hosting", False) else "Nein",
+                "GOOGLE MAPS": google_maps_link
             }
         else:
             return {"Fehler": "Ungültige IP-Adresse oder keine Daten verfügbar."}
