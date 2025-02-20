@@ -2,6 +2,7 @@ import os
 import time
 import requests
 import ipaddress
+import socket
 
 # Farben definieren
 BLUE = '\033[94m'
@@ -41,6 +42,16 @@ def is_home_network(ip):
     except ValueError:
         return False  # Ungültige IP
 
+def scan_ssh_port(ip, port=22, timeout=2):
+    """ Prüft, ob der SSH-Port (22) offen ist """
+    try:
+        with socket.create_connection((ip, port), timeout=timeout):
+            return True
+    except (socket.timeout, ConnectionRefusedError):
+        return False
+    except Exception:
+        return "Unbekannt"
+
 def get_ip_info(ip):
     """ Holt Infos zu einer IP """
     url = f"http://ip-api.com/json/{ip}?fields=66846719"
@@ -79,7 +90,8 @@ def get_ip_info(ip):
                 "MOBILE": "Ja" if data.get("mobile", False) else "Nein",
                 "PROXY": "Ja" if data.get("proxy", False) else "Nein",
                 "HOSTING": "Ja" if data.get("hosting", False) else "Nein",
-                "GOOGLE MAPS": google_maps_link
+                "GOOGLE MAPS": google_maps_link,
+                "SSH": "True" if scan_ssh_port(ip) else "False"
             }
         else:
             return {"Fehler": "Ungültige IP-Adresse oder keine Daten verfügbar."}
