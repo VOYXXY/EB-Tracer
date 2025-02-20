@@ -1,6 +1,7 @@
 import os
 import time
 import requests
+import ipaddress
 
 # Farben definieren
 BLUE = '\033[94m'
@@ -32,6 +33,14 @@ def print_ascii_art():
     """ Zeigt die ASCII-Art in Rot an """
     print(f"{RED}{ART}{END}")
 
+def is_home_network(ip):
+    """ Überprüft, ob die IP zu einem Heimnetzwerk gehört """
+    try:
+        ip_obj = ipaddress.ip_address(ip)
+        return ip_obj.is_private
+    except ValueError:
+        return False  # Ungültige IP
+
 def get_ip_info(ip):
     """ Holt Infos zu einer IP """
     url = f"http://ip-api.com/json/{ip}?fields=66846719"
@@ -47,6 +56,7 @@ def get_ip_info(ip):
             return {
                 "IP": data.get("query", "N/A"),
                 "STATUS": data.get("status", "N/A"),
+                "HEIMNETZWERK": "Ja" if is_home_network(ip) else "Nein",
                 "KONTINENT": data.get("continent", "N/A"),
                 "KONTINENTCODE": data.get("continentCode", "N/A"),
                 "LAND": data.get("country", "N/A"),
