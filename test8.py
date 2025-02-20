@@ -16,10 +16,10 @@ END = '\033[0m'
 # ASCII-Art
 ART = """ 
 ________  _______
-/        |/       \\ 
+/        |/       \ 
 $$$$$$$$/ $$$$$$$  |
 $$ |__    $$ |__$$ |
-$$    |   $$    $$<
+$$    |   $$    $$< 
 $$$$$/    $$$$$$$  |
 $$ |_____ $$ |__$$ |
 $$       |$$    $$/ 
@@ -52,6 +52,14 @@ def scan_ssh_port(ip, port=22, timeout=2):
     except Exception:
         return "Unbekannt"
 
+def get_host_name(ip):
+    """ Holt den Hostnamen einer IP-Adresse """
+    try:
+        host_name = socket.gethostbyaddr(ip)[0]
+        return host_name
+    except (socket.herror, socket.gaierror):
+        return "N/A"  # Wenn keine DNS-Auflösung möglich ist
+
 def get_ip_info(ip):
     """ Holt Infos zu einer IP """
     url = f"http://ip-api.com/json/{ip}?fields=66846719"
@@ -63,6 +71,9 @@ def get_ip_info(ip):
             lat = data.get("lat", "N/A")
             lon = data.get("lon", "N/A")
             google_maps_link = f"https://www.google.com/maps/search/?api=1&query={lat},{lon}" if lat != "N/A" and lon != "N/A" else "N/A"
+            
+            # Hostname hinzufügen
+            host_name = get_host_name(ip)
             
             return {
                 "IP": data.get("query", "N/A"),
@@ -91,7 +102,8 @@ def get_ip_info(ip):
                 "PROXY": "Ja" if data.get("proxy", False) else "Nein",
                 "HOSTING": "Ja" if data.get("hosting", False) else "Nein",
                 "GOOGLE MAPS": google_maps_link,
-                "SSH": "True" if scan_ssh_port(ip) else "False"
+                "SSH": "True" if scan_ssh_port(ip) else "False",
+                "HOSTNAME": host_name  # Der Hostname wird jetzt auch angezeigt
             }
         else:
             return {"Fehler": "Ungültige IP-Adresse oder keine Daten verfügbar."}
