@@ -116,8 +116,8 @@ def show_menu():
     print_ascii_art()
     print(f"{ORANGE}[!] Wähle eine Option:{END}")
     print()
-    print(f"{GREEN}[1]{END} {CYAN}Trace eine IP")                    
-    print(f"{GREEN}[2]{END} {CYAN}Trace meine eigene IP")                    
+    print(f"{RED}[{END}{ORANGE}1{END}{RED}]{END} {CYAN}Trace IP")                    
+    print(f"{RES}[{END}{ORANGE}2{END}{RED}]{END} {CYAN}Trace my IP")                    
     print()
     
     choice = input(f"{RED}[{END} EB-Tracer {RED}]{END} >> ").strip()
@@ -181,6 +181,7 @@ def display_ip_info(ip):
     
     print("\n")
     input(f"{GREEN}[>] {CYAN}Drücke Enter, um zurückzukehren...{END}")
+    clear_screen()
     show_menu()
 
 if __name__ == "__main__":
