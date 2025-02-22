@@ -77,33 +77,29 @@ def get_ip_info(ip):
             
             return {
                 "IP": data.get("query", "N/A"),
-                "STATUS": data.get("status", "N/A"),
-                "HEIMNETZWERK": "Ja" if is_home_network(ip) else "Nein",
-                "KONTINENT": data.get("continent", "N/A"),
-                "KONTINENTCODE": data.get("continentCode", "N/A"),
-                "LAND": data.get("country", "N/A"),
-                "LÄNDERCODE": data.get("countryCode", "N/A"),
-                "REGIONCODE": data.get("region", "N/A"),
-                "REGION": data.get("regionName", "N/A"),
-                "STADT": data.get("city", "N/A"),
-                "DISTRIKT": data.get("district", "N/A"),
-                "POSTLEITZAHL": data.get("zip", "N/A"),
-                "BREITENGRAD": lat,
-                "LÄNGENGRAD": lon,
-                "ZEITZONE": data.get("timezone", "N/A"),
-                "UTC OFFSET": data.get("offset", "N/A"),
-                "WÄHRUNG": data.get("currency", "N/A"),
+                "Home Network": "Ja" if is_home_network(ip) else "Nein",
+                "Continent": data.get("continent", "N/A"),
+                "Continent Code": data.get("continentCode", "N/A"),
+                "Country": data.get("country", "N/A"),
+                "Country Code": data.get("countryCode", "N/A"),
+                "Region": data.get("regionName", "N/A"),
+                "City": data.get("city", "N/A"),
+                "District": data.get("district", "N/A"),
+                "Zip": data.get("zip", "N/A"),
+                "Latitude": lat,
+                "Longitude": lon,
+                "Timezone": data.get("timezone", "N/A"),
+                "Currency": data.get("currency", "N/A"),
                 "ISP": data.get("isp", "N/A"),
-                "ORGANISATION": data.get("org", "N/A"),
+                "Organization": data.get("org", "N/A"),
                 "AS": data.get("as", "N/A"),
-                "AS NAME": data.get("asname", "N/A"),
-                "REVERSE DNS": data.get("reverse", "N/A"),
-                "MOBILE": "Ja" if data.get("mobile", False) else "Nein",
-                "PROXY": "Ja" if data.get("proxy", False) else "Nein",
-                "HOSTING": "Ja" if data.get("hosting", False) else "Nein",
-                "GOOGLE MAPS": google_maps_link,
+                "Reverse DNS": data.get("reverse", "N/A"),
+                "Mobile": "Ja" if data.get("mobile", False) else "Nein",
+                "Proxy": "Ja" if data.get("proxy", False) else "Nein",
+                "Hosting": "Ja" if data.get("hosting", False) else "Nein",
+                "Google Maps": google_maps_link,
                 "SSH": "True" if scan_ssh_port(ip) else "False",
-                "HOSTNAME": host_name  # Der Hostname wird jetzt auch angezeigt
+                "Hostname": host_name  # Der Hostname wird jetzt auch angezeigt
             }
         else:
             return {"Fehler": "Ungültige IP-Adresse oder keine Daten verfügbar."}
@@ -174,7 +170,8 @@ def display_ip_info(ip):
     info = get_ip_info(ip)
 
     for key, value in info.items():
-        print(f"{ORANGE}{key}: {WHITE}{value}{END}")
+        # Formatierte Ausgabe
+        print(f"[ {ORANGE}{key}{END} : {WHITE} ( {RED}{value}{END} )")
 
     print("\n")
     input(f"{GREEN}[>] {CYAN}Drücke Enter, um zurückzukehren...{END}")
