@@ -165,28 +165,24 @@ def display_ip_info(ip):
     """ Holt und zeigt die IP-Informationen an """
     clear_screen()
     print_ascii_art()
-    print(f"{GREEN}[+] Gib eine IP-Adresse ein: {WHITE}{ip}{END}\n")
-
-    print("-" * 30)  # Trenner
-
-    print(f"{"-" * 10}INFOS{"-" * 10}\n")
+    print(f"{GREEN}[+] Gib eine IP-Adresse ein: {WHITE}{ip}\n")
 
     info = get_ip_info(ip)
 
     for key, value in info.items():
         if key != "Google Maps":  # Der Google Maps-Link kommt später
             print(f"[ {ORANGE}{key}{END} {WHITE}: {CYAN}{value}{END} ]")
-
-    # SSH-Status und Google Maps-Link
-    print("\n" + "-" * 30)  # Abstand zwischen Infos und Links
     
-    print(f"[ {ORANGE}SSH{END} {WHITE}: {CYAN}{info.get('SSH', 'N/A')}{END} ]")
+    # Abstand für Google Maps-Link
+    print("\n" + " " * 20)  # Abstand zwischen den Infos und dem Link
     
-    print(f"\n" + "-" * 30)  # Abstand für Google Maps-Link
-    
+    # Google Maps-Link als letztes anzeigen
     print(f"[ {ORANGE}Google Maps{END} {WHITE}: {CYAN}{info.get('Google Maps', 'N/A')}{END} ]\n")
 
-    print("-" * 30)  # Abschluss-Trenner
+    # SSH-Status als letztes in der ersten Reihe
+    print(f"[ {ORANGE}SSH{END} {WHITE}: {CYAN}{info.get('SSH', 'N/A')}{END} ]")
+
+    print("\n")
     input(f"{GREEN}[>] {CYAN}Drücke Enter, um zurückzukehren...{END}")
     show_menu()
 
