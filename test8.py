@@ -42,7 +42,7 @@ def clear_screen():
 def print_ascii_art():
     """ Zeigt die ASCII-Art in Rot an """
     print(f"{RED}{ART}{END}")
-    print(f"{HEADER}\n")
+    print(f"{HEADER}")
     print()
     print(f"{KSY}\n")
 
