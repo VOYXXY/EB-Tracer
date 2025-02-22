@@ -97,9 +97,9 @@ def get_ip_info(ip):
                 "Mobile": "Ja" if data.get("mobile", False) else "Nein",
                 "Proxy": "Ja" if data.get("proxy", False) else "Nein",
                 "Hosting": "Ja" if data.get("hosting", False) else "Nein",
-                "Google Maps": google_maps_link,
                 "SSH": "True" if scan_ssh_port(ip) else "False",
-                "Hostname": host_name  # Der Hostname wird jetzt auch angezeigt
+                "Hostname": host_name,  # Der Hostname wird jetzt auch angezeigt
+                "Google Maps": google_maps_link
             }
         else:
             return {"Fehler": "Ungültige IP-Adresse oder keine Daten verfügbar."}
@@ -165,14 +165,28 @@ def display_ip_info(ip):
     """ Holt und zeigt die IP-Informationen an """
     clear_screen()
     print_ascii_art()
-    print(f"{GREEN}IP-Informationen für: {WHITE}{ip}\n")
+    print(f"{GREEN}[+] Gib eine IP-Adresse ein: {WHITE}{ip}{END}\n")
+
+    print("-" * 30)  # Trenner
+
+    print(f"{"-" * 10}INFOS{"-" * 10}\n")
 
     info = get_ip_info(ip)
 
     for key, value in info.items():
-        print(f"[ {ORANGE}{key}{END} {WHITE}: {CYAN}{value}{END} ]")
-        
-    print("\n")
+        if key != "Google Maps":  # Der Google Maps-Link kommt später
+            print(f"[ {ORANGE}{key}{END} {WHITE}: {CYAN}{value}{END} ]")
+
+    # SSH-Status und Google Maps-Link
+    print("\n" + "-" * 30)  # Abstand zwischen Infos und Links
+    
+    print(f"[ {ORANGE}SSH{END} {WHITE}: {CYAN}{info.get('SSH', 'N/A')}{END} ]")
+    
+    print(f"\n" + "-" * 30)  # Abstand für Google Maps-Link
+    
+    print(f"[ {ORANGE}Google Maps{END} {WHITE}: {CYAN}{info.get('Google Maps', 'N/A')}{END} ]\n")
+
+    print("-" * 30)  # Abschluss-Trenner
     input(f"{GREEN}[>] {CYAN}Drücke Enter, um zurückzukehren...{END}")
     show_menu()
 
