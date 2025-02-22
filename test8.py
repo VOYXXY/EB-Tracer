@@ -28,7 +28,7 @@ $$$$$$$$/ $$$$$$$/
 
 # Custom Header für "Made by VOJXX | Version : 1.1V"
 HEADER = f"""
-{CYAN}Made by{END} {ORANGE}VOJXX{END} {RED}|{END} {CYAN}Version : 1.1V{END} {RED}|{END}
+{CYAN}Made by{END} {ORANGE}VOJXX{END} {RED}|{END} {CYAN}Version :{END}{ORANGE} 1.1V{END} {RED}|{END}
 """
 
 def clear_screen():
@@ -116,8 +116,8 @@ def show_menu():
     print_ascii_art()
     print(f"{ORANGE}[!] Wähle eine Option:{END}")
     print()
-    print(f"{RED}[{END}{ORANGE}1{END}{RED}]{END} {CYAN}Trace IP")                    
-    print(f"{RES}[{END}{ORANGE}2{END}{RED}]{END} {CYAN}Trace my IP")                    
+    print(f"{RED}[{END}{ORANGE}1{END}{RED}]{END} {CYAN}Trace IP{END}")                    
+    print(f"{RED}[{END}{ORANGE}2{END}{RED}]{END} {CYAN}Trace my IP{END}")                    
     print()
     
     choice = input(f"{RED}[{END} EB-Tracer {RED}]{END} >> ").strip()
