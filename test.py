@@ -174,19 +174,24 @@ def trace_phone():
     """ Benutzer gibt eine Telefonnummer ein, die überprüft wird """
     clear_screen()
     print_ascii_art()
-    phone_number = input(f"{GREEN}[+]{END}{CYAN} Gib eine Telefonnummer ein (mit Ländervorwahl): {END}").strip()
+    phone_number = input(f"{GREEN}[+]{END}{CYAN} Gib eine vollständige Telefonnummer ein (mit Ländervorwahl): {END}").strip()
     
     if phone_number:
+        # Telefonnummern-Info holen
         info = get_phone_info(phone_number)
+        
+        # Informationen anzeigen
+        print(f"\n{GREEN}[+] Telefonnummer-Info für: {CYAN}{phone_number}{END}\n")
         for key, value in info.items():
-            if key == "ISP":
-                print(f"[ {ORANGE}ISP{END} {WHITE}: {CYAN}{value if value else 'N/A'}{END} ]\n")
-            else:
-                print(f"[ {ORANGE}{key}{END} {WHITE}: {CYAN}{value}{END} ]")
+            print(f"[ {ORANGE}{key}{END} {WHITE}: {CYAN}{value}{END} ]")
     else:
         print(f"{RED}[!] Keine gültige Telefonnummer eingegeben!{END}")
         time.sleep(2)
         show_menu()
+
+    input(f"{GREEN}[>] {CYAN}Drücke Enter, um zurückzukehren...{END}")
+    clear_screen()
+    show_menu()
 
 def trace_ip():
     """ Benutzer gibt eine IP ein, die getraced wird """
