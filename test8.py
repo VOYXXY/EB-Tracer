@@ -31,10 +31,6 @@ HEADER = f"""
 {CYAN}Made by{END} {ORANGE}VOJXX{END} {RED}|{END} {CYAN}Version :{END}{ORANGE} 1.1V{END} {RED}|{END}
 """
 
-KSY = f"""
-{CYAN} API = {END} http://ip-api.com/json 
-"""
-
 def clear_screen():
     """ Leert den Bildschirm """
     os.system('cls' if os.name == 'nt' else 'clear')
@@ -42,9 +38,7 @@ def clear_screen():
 def print_ascii_art():
     """ Zeigt die ASCII-Art in Rot an """
     print(f"{RED}{ART}{END}")
-    print(f"{HEADER}")
-    print()
-    print(f"{KSY}\n")
+    print(f"{HEADER}\n")
 
 def is_home_network(ip):
     """ Überprüft, ob die IP zu einem Heimnetzwerk gehört """
@@ -123,7 +117,8 @@ def show_menu():
     print(f"{ORANGE}[!] Wähle eine Option:{END}")
     print()
     print(f"{RED}[{END}{ORANGE}1{END}{RED}]{END} {CYAN}Trace IP{END}")                    
-    print(f"{RED}[{END}{ORANGE}2{END}{RED}]{END} {CYAN}Trace my IP{END}")                    
+    print(f"{RED}[{END}{ORANGE}2{END}{RED}]{END} {CYAN}Trace my IP{END}")    
+    print(f"{RED}[{END}{ORANGE}3{END}{RED}]{END} {CYAN}Attack Host {END}")
     print()
     
     choice = input(f"{RED}[{END} EB-Tracer {RED}]{END} >> ").strip()
