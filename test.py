@@ -174,21 +174,23 @@ def trace_phone():
     """ Benutzer gibt eine Telefonnummer ein, die überprüft wird """
     clear_screen()
     print_ascii_art()
-    phone_number = input(f"{GREEN}[+]{END}{CYAN} Gib eine vollständige Telefonnummer ein (mit Ländervorwahl): {END}").strip()
+    phone_number = input(f"{GREEN}[+]{END}{CYAN} Enter full number : {END}").strip()
     
     if phone_number:
         # Telefonnummern-Info holen
         info = get_phone_info(phone_number)
         
         # Informationen anzeigen
-        print(f"\n{GREEN}[+] Telefonnummer-Info für: {CYAN}{phone_number}{END}\n")
+        print(f"\n{GREEN}[+] Information for : {CYAN}{phone_number}{END}\n")
         for key, value in info.items():
             print(f"[ {ORANGE}{key}{END} {WHITE}: {CYAN}{value}{END} ]")
     else:
         print(f"{RED}[!] Keine gültige Telefonnummer eingegeben!{END}")
         time.sleep(2)
         show_menu()
-
+    
+    print()
+    print()
     input(f"{GREEN}[>] {CYAN}Drücke Enter, um zurückzukehren...{END}")
     clear_screen()
     show_menu()
