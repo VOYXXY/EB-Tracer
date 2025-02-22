@@ -31,6 +31,10 @@ HEADER = f"""
 {CYAN}Made by{END} {ORANGE}VOJXX{END} {RED}|{END} {CYAN}Version :{END}{ORANGE} 1.1V{END} {RED}|{END}
 """
 
+KSY = f"""
+{CYAN} API = {END} http://ip-api.com/json 
+"""
+
 def clear_screen():
     """ Leert den Bildschirm """
     os.system('cls' if os.name == 'nt' else 'clear')
@@ -39,6 +43,8 @@ def print_ascii_art():
     """ Zeigt die ASCII-Art in Rot an """
     print(f"{RED}{ART}{END}")
     print(f"{HEADER}\n")
+    print()
+    print(f"{KSY}\n")
 
 def is_home_network(ip):
     """ Überprüft, ob die IP zu einem Heimnetzwerk gehört """
