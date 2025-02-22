@@ -170,9 +170,8 @@ def display_ip_info(ip):
     info = get_ip_info(ip)
 
     for key, value in info.items():
-        # Formatierte Ausgabe
-        print(f"[ {ORANGE}{key}{END} : {WHITE} ( {RED}{value}{END} )")
-
+        print(f"[ {ORANGE}{key}{END} {WHITE}: {CYAN}{value}{END} ]")
+        
     print("\n")
     input(f"{GREEN}[>] {CYAN}Drücke Enter, um zurückzukehren...{END}")
     show_menu()
