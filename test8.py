@@ -26,6 +26,11 @@ $$       |$$    $$/
 $$$$$$$$/ $$$$$$$/
 """
 
+# Custom Header für "Made by VOJXX | Version : 1.1V"
+HEADER = f"""
+{CYAN}Made by{END} {ORANGE}VOJXX{END} {RED}|{END} {CYAN}Version : 1.1V{END} {RED}|{END}
+"""
+
 def clear_screen():
     """ Leert den Bildschirm """
     os.system('cls' if os.name == 'nt' else 'clear')
@@ -33,6 +38,7 @@ def clear_screen():
 def print_ascii_art():
     """ Zeigt die ASCII-Art in Rot an """
     print(f"{RED}{ART}{END}")
+    print(f"{HEADER}\n")
 
 def is_home_network(ip):
     """ Überprüft, ob die IP zu einem Heimnetzwerk gehört """
@@ -70,7 +76,6 @@ def get_ip_info(ip):
         if data.get("status") == "success":
             lat = data.get("lat", "N/A")
             lon = data.get("lon", "N/A")
-            google_maps_link = f"https://www.google.com/maps/search/?api=1&query={lat},{lon}" if lat != "N/A" and lon != "N/A" else "N/A"
             
             # Hostname hinzufügen
             host_name = get_host_name(ip)
@@ -98,8 +103,7 @@ def get_ip_info(ip):
                 "Proxy": "Ja" if data.get("proxy", False) else "Nein",
                 "Hosting": "Ja" if data.get("hosting", False) else "Nein",
                 "SSH": "True" if scan_ssh_port(ip) else "False",
-                "Hostname": host_name,  # Der Hostname wird jetzt auch angezeigt
-                "Google Maps": google_maps_link
+                "Hostname": host_name  # Der Hostname wird jetzt auch angezeigt
             }
         else:
             return {"Fehler": "Ungültige IP-Adresse oder keine Daten verfügbar."}
@@ -110,9 +114,7 @@ def show_menu():
     """ Zeigt das Hauptmenü an """
     clear_screen()
     print_ascii_art()
-    print()
     print(f"{ORANGE}[!] Wähle eine Option:{END}")
-    print()
     print(f"{GREEN}[1]{END} {CYAN}Trace eine IP")                    
     print(f"{GREEN}[2]{END} {CYAN}Trace meine eigene IP")                    
     print()
@@ -170,18 +172,12 @@ def display_ip_info(ip):
     info = get_ip_info(ip)
 
     for key, value in info.items():
-        if key != "Google Maps":  # Der Google Maps-Link kommt später
+        if key != "Google Maps":  # Google Maps-Link nicht mehr anzeigen
             print(f"[ {ORANGE}{key}{END} {WHITE}: {CYAN}{value}{END} ]")
     
-    # Abstand für Google Maps-Link
-    print("\n" + " " * 20)  # Abstand zwischen den Infos und dem Link
+    # SSH-Status vor Google Maps-Link anzeigen
+    print(f"[ {ORANGE}SSH{END} {WHITE}: {CYAN}{info.get('SSH', 'N/A')}{END} ]\n")
     
-    # Google Maps-Link als letztes anzeigen
-    print(f"[ {ORANGE}Google Maps{END} {WHITE}: {CYAN}{info.get('Google Maps', 'N/A')}{END} ]\n")
-
-    # SSH-Status als letztes in der ersten Reihe
-    print(f"[ {ORANGE}SSH{END} {WHITE}: {CYAN}{info.get('SSH', 'N/A')}{END} ]")
-
     print("\n")
     input(f"{GREEN}[>] {CYAN}Drücke Enter, um zurückzukehren...{END}")
     show_menu()
