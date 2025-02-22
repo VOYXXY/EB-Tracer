@@ -118,10 +118,10 @@ def get_phone_info(phone_number):
         parsed_number = phonenumbers.parse(phone_number)
 
         # Land
-        country = geocoder.country_name_for_number(parsed_number, "de")
+        country = geocoder.country_name_for_number(parsed_number, "en")
 
         # Anbieter
-        phone_carrier = carrier.name_for_number(parsed_number, "de")
+        phone_carrier = carrier.name_for_number(parsed_number, "en")
 
         # Gültigkeit und Nummerntyp
         is_valid = phonenumbers.is_valid_number(parsed_number)
@@ -133,18 +133,33 @@ def get_phone_info(phone_number):
         # Formatierte Nummer
         formatted_number = phonenumbers.format_number(parsed_number, phonenumbers.PhoneNumberFormat.INTERNATIONAL)
 
+        # Nummerntyp in lesbare Form umwandeln
+        number_type_str = ""
+        if number_type == 1:
+            number_type_str = "Festnetznummer"
+        elif number_type == 2:
+            number_type_str = "Mobilnummer"
+        elif number_type == 3:
+            number_type_str = "VoIP-Nummer"
+        elif number_type == 4:
+            number_type_str = "Kurzwahl"
+        elif number_type == 5:
+            number_type_str = "Premium-Dienstnummer"
+        else:
+            number_type_str = "Unbekannter Typ"
+
         return {
             "Number": formatted_number,
             "Country": country,
             "Timezone": ", ".join(time_zone) if time_zone else "N/A",
             "Region": geocoder.description_for_number(parsed_number, "de"),
-            "Number Type": phonenumbers.number_type(parsed_number),
+            "Number Type": number_type_str,
             "ISP": phone_carrier if phone_carrier else "N/A",
             "Validation": "Valid" if is_valid else "Invalid"
         }
     except phonenumbers.phonenumberutil.NumberParseException:
         return {"Error": "Ungültige Telefonnummer"}
-
+        
 def show_menu():
     """ Zeigt das Hauptmenü an """
     clear_screen()
