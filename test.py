@@ -6,7 +6,6 @@ import socket
 import phonenumbers
 from phonenumbers import geocoder, carrier, timezone
 
-# Farben definieren
 BLUE = '\033[94m'
 GREEN = '\033[32m'
 RED = '\033[91m'
@@ -15,7 +14,6 @@ CYAN = '\033[36m'
 ORANGE = '\033[93m'
 END = '\033[0m'
 
-# ASCII-Art
 ART = """ 
 ________  _______
 /        |/       \ 
@@ -28,30 +26,25 @@ $$       |$$    $$/
 $$$$$$$$/ $$$$$$$/
 """
 
-# Custom Header für "Made by VOJXX | Version : 1.1V"
 HEADER = f"""
 {CYAN}Made by{END} {ORANGE}VOJXX{END} {RED}|{END} {CYAN}Version :{END}{ORANGE} 1.1V{END} {RED}|{END}
 """
 
 def clear_screen():
-    """ Leert den Bildschirm """
     os.system('cls' if os.name == 'nt' else 'clear')
 
 def print_ascii_art():
-    """ Zeigt die ASCII-Art in Rot an """
     print(f"{RED}{ART}{END}")
     print(f"{HEADER}\n")
 
 def is_home_network(ip):
-    """ Überprüft, ob die IP zu einem Heimnetzwerk gehört """
     try:
         ip_obj = ipaddress.ip_address(ip)
         return ip_obj.is_private
     except ValueError:
-        return False  # Ungültige IP
+        return False  
 
 def scan_ssh_port(ip, port=22, timeout=2):
-    """ Prüft, ob der SSH-Port (22) offen ist """
     try:
         with socket.create_connection((ip, port), timeout=timeout):
             return True
@@ -66,10 +59,9 @@ def get_host_name(ip):
         host_name = socket.gethostbyaddr(ip)[0]
         return host_name
     except (socket.herror, socket.gaierror):
-        return "N/A"  # Wenn keine DNS-Auflösung möglich ist
+        return "N/A" 
 
 def get_ip_info(ip):
-    """ Holt Infos zu einer IP """
     url = f"http://ip-api.com/json/{ip}?fields=66846719"
     response = requests.get(url, timeout=5)
     
@@ -79,7 +71,6 @@ def get_ip_info(ip):
             lat = data.get("lat", "N/A")
             lon = data.get("lon", "N/A")
             
-            # Hostname hinzufügen
             host_name = get_host_name(ip)
             
             return {
@@ -105,7 +96,7 @@ def get_ip_info(ip):
                 "Proxy": "Ja" if data.get("proxy", False) else "Nein",
                 "Hosting": "Ja" if data.get("hosting", False) else "Nein",
                 "SSH": "True" if scan_ssh_port(ip) else "False",
-                "Hostname": host_name  # Der Hostname wird jetzt auch angezeigt
+                "Hostname": host_name 
             }
         else:
             return {"Fehler": "Ungültige IP-Adresse oder keine Daten verfügbar."}
@@ -113,27 +104,18 @@ def get_ip_info(ip):
         return {"Fehler": f"HTTP-Statuscode {response.status_code}"}
 
 def get_phone_info(phone_number):
-    """ Holt Informationen zu einer Telefonnummer """
     try:
         parsed_number = phonenumbers.parse(phone_number)
-
-        # Land
         country = geocoder.country_name_for_number(parsed_number, "en")
-
-        # Anbieter
         phone_carrier = carrier.name_for_number(parsed_number, "en")
 
-        # Gültigkeit und Nummerntyp
         is_valid = phonenumbers.is_valid_number(parsed_number)
         number_type = phonenumbers.number_type(parsed_number)
 
-        # Zeitzone
         time_zone = timezone.time_zones_for_number(parsed_number)
 
-        # Formatierte Nummer
         formatted_number = phonenumbers.format_number(parsed_number, phonenumbers.PhoneNumberFormat.INTERNATIONAL)
 
-        # Nummerntyp in lesbare Form umwandeln
         number_type_str = ""
         if number_type == 1:
             number_type_str = "Festnetznummer"
@@ -161,7 +143,6 @@ def get_phone_info(phone_number):
         return {"Error": "Ungültige Telefonnummer"}
         
 def show_menu():
-    """ Zeigt das Hauptmenü an """
     clear_screen()
     print_ascii_art()
     print(f"{ORANGE}[!] Wähle eine Option:{END}")
@@ -192,10 +173,8 @@ def trace_phone():
     phone_number = input(f"{GREEN}[+]{END}{CYAN} Enter full number : {END}").strip()
     
     if phone_number:
-        # Telefonnummern-Info holen
         info = get_phone_info(phone_number)
         
-        # Informationen anzeigen
         print(f"\n{GREEN}[+] Information for : {CYAN}{phone_number}{END}\n")
         for key, value in info.items():
             print(f"[ {ORANGE}{key}{END} {WHITE}: {CYAN}{value}{END} ]")
@@ -211,7 +190,6 @@ def trace_phone():
     show_menu()
 
 def trace_ip():
-    """ Benutzer gibt eine IP ein, die getraced wird """
     clear_screen()
     print_ascii_art()
     ip = input(f"{GREEN}[+]{END}{CYAN} Gib eine IP-Adresse ein: {END}").strip()
@@ -224,7 +202,6 @@ def trace_ip():
         show_menu()
 
 def trace_my_ip():
-    """ Holt automatisch die eigene IP und zeigt die Infos an """
     clear_screen()
     print_ascii_art()
     print(f"{GREEN}[+] {CYAN}Hole eigene IP...{END}")
@@ -252,10 +229,9 @@ def display_ip_info(ip):
     info = get_ip_info(ip)
 
     for key, value in info.items():
-        if key != "Google Maps":  # Google Maps-Link nicht mehr anzeigen
+        if key != "Google Maps":  
             print(f"[ {ORANGE}{key}{END} {WHITE}: {CYAN}{value}{END} ]")
     
-    # SSH-Status vor Google Maps-Link anzeigen
     print(f"[ {ORANGE}SSH{END} {WHITE}: {CYAN}{info.get('SSH', 'N/A')}{END} ]\n")
     
     print("\n")
