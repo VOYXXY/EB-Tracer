@@ -54,7 +54,7 @@ def scan_ssh_port(ip, port=22, timeout=2):
         return "Unbekannt"
 
 def get_host_name(ip):
-    """ Holt den Hostnamen einer IP-Adresse """
+
     try:
         host_name = socket.gethostbyaddr(ip)[0]
         return host_name
